@@ -1,0 +1,11 @@
+{
+  "name": "drag_and_drop",
+  "version": "1.0.0",
+  "description": "a chamorro matching game",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ken banico",
+  "license": "ISC"
+}
