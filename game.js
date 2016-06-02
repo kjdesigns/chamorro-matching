@@ -5,8 +5,15 @@ var gameState={
   //make timer stuff
   //tween when it overlaps 
   init:function(){
-    this.PX = this.game.world.centerX;
-    this.PY = 400;
+    
+    
+      this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      
+      this.game.scale.setMinMax(this.game.width/2,this.game.height/2,this.game.width*2,this.game.height*2);
+      
+      this.game.scale.pageAlignHorizontally = true;
+      this.game.scale.pageAlignVertically = true;
+    
   },
     
   preload:function(){
@@ -35,7 +42,7 @@ var gameState={
       this.playerGroup = this.game.add.group();
       this.imageGroup=this.game.add.group();
       
-      this.panda = this.game.add.sprite(100,100,"panda");
+      this.panda = this.game.add.sprite(200,100,"panda");
       this.panda.scale.setTo(0.3);
       this.panda.anchor.setTo(0.5);
       this.panda.customParams="panda";
@@ -44,7 +51,7 @@ var gameState={
       
       
       
-      this.snake = this.game.add.sprite(300,100,"snake");
+      this.snake = this.game.add.sprite(400,100,"snake");
       this.snake.scale.setTo(0.3);
        this.snake.anchor.setTo(0.5);
       this.game.physics.arcade.enable(this.snake);
@@ -52,38 +59,37 @@ var gameState={
       this.imageGroup.add(this.snake);
       
       
-      this.parrot = this.game.add.sprite(500,100,"parrot");
+      this.parrot = this.game.add.sprite(600,100,"parrot");
       this.parrot.scale.setTo(0.3);
        this.parrot.anchor.setTo(0.5);
       this.game.physics.arcade.enable(this.parrot);
       this.parrot.customParams="parrot";
       this.imageGroup.add(this.parrot);
       
-      this.player = this.game.add.sprite(this.PX,this.PY,"mario");
-      this.player.anchor.setTo(0.5);
-      
-      //Enable input and allow for dragging
-      this.player.inputEnabled = true;
-      this.game.physics.arcade.enable(this.player);
+   
       this.playerGroup.forEach(function(element){
         element.events.onInputDown.add(this.dragPlayer,this);
+              
+        this.tween = this.game.add.tween(element.scale).to({x:1.3,y:1.3},500,"Elastic");
+        
+        
+        
+          
       
-      },this)
-      //text
-      var style = {font:"18px Arial",fill:"#FF69B4"};
-      var label = this.game.add.text(100,100,"Find the GALAGU",style);
-      label.anchor.setTo(0.5);
-      this.game.add.tween(label).to({y:50}).yoyo(true).start().loop(true);
+      },this);
+      
+
+      
       
       var playerData = [
           {
-            key:"panda",x:500,y:500
+            key:"panda",x:600,y:500
           },
           {
-            key:"snake",x:100,y:500
+            key:"snake",x:200,y:500
           },
           {
-            key:"parrot",x:300,y:500
+            key:"parrot",x:400,y:500
           }
         
         
@@ -100,26 +106,82 @@ var gameState={
           player.anchor.setTo(0.5);
           player.inputEnabled=true;
           player.input.enableDrag();
+          player.OriginalX=element.x;
+          player.OriginalY=element.y;
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+//           var sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'asuna');
+// sprite.anchor.set(0.5);
+// tween = game.add.tween(sprite.scale).to( { x: 3, y: 3 }, 1000, "Elastic");
+// game.input.onDown.addOnce(start, this);
+// }
+// function start() {
+// tween.start();
+// text.visible = false;
+// }
+        
+          
+        },this);
+        
+        
+        
+        this.imageGroup.forEach(function(element){
+          var tween = this.game.add.tween(element);
+          tween.to({angle:-10},500);
+          tween.to({angle:10},1000);
+          tween.to({angle:0},500);
+          tween.loop();
+          tween.start();
+          
+          
+         // var tween = this.game.add.tween(element.scale).to({},2000).yoyo(true).start().loop(true);
         },this);
   },
   
   update:function(){
       this.game.physics.arcade.overlap(this.playerGroup,this.imageGroup,this.checkCorrect,null,this);
    
-      
+      if(this.playerGroup.total ==0){
+        this.game.state.start("level2");
+      }
       
     
       
   },
   checkCorrect:function(player,sprites){
-    console.log("im overlapping");
     if(player.customParams==sprites.customParams){
       player.inputEnabled=false;
       player.kill();
       sprites.kill();
+    }else{
+      player.input.draggable = false;
+      player.reset(player.OriginalX,player.OriginalY);
+      this.game.time.events.add(1000,function () {
+          this.dragPlayer(player)
+      },this);
+     
+      
+      
     }
+    
+    
+      
   },
-
+  
+  dragPlayer:function(player){
+    
+    player.input.enableDrag()
+    // this.tween.start();
+  },
+  
  
 };
 
