@@ -13,6 +13,10 @@ var gameState={
       
       this.game.scale.pageAlignHorizontally = true;
       this.game.scale.pageAlignVertically = true;
+      
+      //variables
+      this.textAppear;
+  
     
   },
     
@@ -23,7 +27,10 @@ var gameState={
       this.game.load.image("pig","assets/pig.png");
       this.game.load.image("background","assets/background-3.png");
       this.game.load.image("ibb","assets/ibb.png");
-      this.game.load.image("mario","assets/mario.png")
+      
+      //audio
+      this.game.load.audio("hungan","assets/sounds/hungan.mp3");
+      this.game.load.audio("ahe","assets/sounds/ahe.mp3");
       
       
       
@@ -36,6 +43,10 @@ var gameState={
       this.game.physics.startSystem(Phaser.Physics.ARCADE);
       this.game.renderer.renderSession.roundPixels=true;
       this.background = this.game.add.sprite(0,0,"background");
+      
+      //create audio
+      this.hungan = this.game.add.audio("hungan");
+      this.ahe = this.game.add.audio("ahe");
       
       
       
@@ -67,16 +78,7 @@ var gameState={
       this.imageGroup.add(this.parrot);
       
    
-      this.playerGroup.forEach(function(element){
-        element.events.onInputDown.add(this.dragPlayer,this);
-              
-        this.tween = this.game.add.tween(element.scale).to({x:1.3,y:1.3},500,"Elastic");
-        
-        
-        
-          
-      
-      },this);
+ 
       
 
       
@@ -108,6 +110,15 @@ var gameState={
           player.input.enableDrag();
           player.OriginalX=element.x;
           player.OriginalY=element.y;
+          
+          //audio
+          
+          
+          
+          
+          player.events.onInputDown.add(this.playSound,this);
+          player.events.onInputUp.add(this.reverse,this);
+          
           
           
           
@@ -144,44 +155,132 @@ var gameState={
           
          // var tween = this.game.add.tween(element.scale).to({},2000).yoyo(true).start().loop(true);
         },this);
+        
+        
+        //create text
+        var style = {font:"bold 30px Arial",fill:"#D0171B",align:"center"};
+      this.textAppear=this.game.add.text(this.game.width/2,this.game.world.centerY,null,style);
+      this.textAppear.anchor.setTo(0.5);
   },
   
   update:function(){
       this.game.physics.arcade.overlap(this.playerGroup,this.imageGroup,this.checkCorrect,null,this);
    
-      if(this.playerGroup.total ==0){
-        this.game.state.start("level2");
-      }
+      // if(this.playerGroup.total ==0){
+      //   this.game.state.start("level2");
+      // }
+      
+      
+      this.checkIfNoMoreSprites();
       
     
       
   },
   checkCorrect:function(player,sprites){
+    
+    
     if(player.customParams==sprites.customParams){
       player.inputEnabled=false;
+      this.hungan.play();
       player.kill();
       sprites.kill();
+      this.showText("Correct");
+      this.textAppear.visible=true
+      
+    
     }else{
+      //Play a sound when its wrong
+      this.ahe.play();
+      console.log("SORRY ITS WRONG");
       player.input.draggable = false;
-      player.reset(player.OriginalX,player.OriginalY);
-      this.game.time.events.add(1000,function () {
-          this.dragPlayer(player)
+      
+      this.showText("Wrong");
+      this.textAppear.visible=true;
+      
+      
+      //reset the sprite back to original position
+      //player.reset(player.OriginalX,player.OriginalY);
+      this.resetPlayer(player);
+      
+      
+      //add event listener to make player sprites draggable again
+      this.game.time.events.add(300,function () {
+          this.dragPlayer(player);
       },this);
+     
      
       
       
     }
     
+    this.game.time.events.add(1000,function(){
+        this.textAppear.visible=false;
+      },this);
     
       
   },
-  
-  dragPlayer:function(player){
-    
-    player.input.enableDrag()
-    // this.tween.start();
+  checkIfNoMoreSprites:function(){
+  //check if there is anymore sprites on the game if none then wait 3 seconds before going to the next level
+    if(this.playerGroup.total ==0){
+      this.game.time.events.add(3000,function(){
+       this.game.state.start("level2");
+      },this);
+       
+      }
+      
+     
   },
   
+  dragPlayer:function(player){
+    //var tween = this.game.add.tween(player).to({alpha:1},1000);
+    // var tween = this.game.add.tween(player.scale).to({x:0.3,y:0.3},300);
+    // tween.start();
+    
+    player.input.enableDrag()
+    
+    
+    
+  },
+  playSound:function(sprite){
+    console.log("PLAY SOUND" + sprite.customParams);
+    //var tween = this.game.add.tween(sprite).to({alpha:0.5},1000);
+    var tween = this.game.add.tween(sprite.scale).to({x:0.6,y:0.6},300);
+    tween.start();
+  },
+  
+  reverse:function(player){
+    //var tween = this.game.add.tween(player).to({alpha:1},1000);
+    var tween = this.game.add.tween(player.scale).to({x:0.3,y:0.3},300);
+    tween.start();
+   
+   
+  },
+  
+  resetPlayer:function(sprite){
+    var tween = this.game.add.tween(sprite).to({x:sprite.OriginalX,y:sprite.OriginalY},1000);
+    tween.start();
+    
+  },
+  // showText:function(text){
+  //   if(!this.textAppear){
+  //     var style = {font:"bold 30px Arial",fill:"#D0171B",align:"center"};
+  //     this.textAppear=this.game.add.text(this.game.width/2,this.game.world.centerY,"this will have text",style);
+  //     this.textAppear.anchor.setTo(0.5);
+  //   }
+  //   this.textAppear.setText(text);
+  //   this.textAppear.visible=true;
+  // }
+  
+  showText:function(text){
+    
+      // var style = {font:"bold 30px Arial",fill:"#D0171B",align:"center"};
+      // this.textAppear=this.game.add.text(this.game.width/2,this.game.world.centerY,text,style);
+      // this.textAppear.anchor.setTo(0.5);
+      this.textAppear.text=text;
+    
+  }
+  
+ 
  
 };
 
