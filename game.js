@@ -27,10 +27,14 @@ var gameState={
       this.game.load.image("pig","assets/pig.png");
       this.game.load.image("background","assets/background-3.png");
       this.game.load.image("ibb","assets/ibb.png");
+      this.game.load.image("star","assets/star.png");
       
       //audio
       this.game.load.audio("hungan","assets/sounds/hungan.mp3");
       this.game.load.audio("ahe","assets/sounds/ahe.mp3");
+      this.game.load.audio("parrot","assets/sounds/parrot.mp3");
+      this.game.load.audio("snake","assets/sounds/snake.mp3");
+      this.game.load.audio("panda","assets/sounds/panda.mp3");
       
       
       
@@ -47,6 +51,13 @@ var gameState={
       //create audio
       this.hungan = this.game.add.audio("hungan");
       this.ahe = this.game.add.audio("ahe");
+      
+      //create emitter
+      this.emitter = this.game.add.emitter(this.game.world.centerX,this.game.world.centerY,50);
+      this.emitter.makeParticles("star");
+      this.emitter.gravity = 300;
+      this.emitter.setXSpeed(-200,200);
+      this.emitter.setYSpeed(-300,-400);
       
       
       
@@ -112,7 +123,7 @@ var gameState={
           player.OriginalY=element.y;
           
           //audio
-          
+          player.customSound = this.game.add.audio(element.key);
           
           
           
@@ -158,7 +169,7 @@ var gameState={
         
         
         //create text
-        var style = {font:"bold 30px Arial",fill:"#D0171B",align:"center"};
+        var style = {font:"bold 30px Arial",fill:"#ffffff",align:"center"};
       this.textAppear=this.game.add.text(this.game.width/2,this.game.world.centerY,null,style);
       this.textAppear.anchor.setTo(0.5);
   },
@@ -185,7 +196,8 @@ var gameState={
       player.kill();
       sprites.kill();
       this.showText("Correct");
-      this.textAppear.visible=true
+      this.textAppear.visible=true;
+      this.emitter.start(true,1000,null,30);
       
     
     }else{
@@ -246,6 +258,7 @@ var gameState={
     //var tween = this.game.add.tween(sprite).to({alpha:0.5},1000);
     var tween = this.game.add.tween(sprite.scale).to({x:0.6,y:0.6},300);
     tween.start();
+    sprite.customSound.play();
   },
   
   reverse:function(player){
