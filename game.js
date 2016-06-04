@@ -30,11 +30,12 @@ var gameState={
       this.game.load.image("star","assets/star.png");
       
       //audio
-      this.game.load.audio("hungan","assets/sounds/hungan.mp3");
+      this.game.load.audio("hungan","assets/sounds/correct.mp3");
       this.game.load.audio("ahe","assets/sounds/ahe.mp3");
       this.game.load.audio("parrot","assets/sounds/parrot.mp3");
       this.game.load.audio("snake","assets/sounds/snake.mp3");
       this.game.load.audio("panda","assets/sounds/panda.mp3");
+      
       
       
       
@@ -51,6 +52,7 @@ var gameState={
       //create audio
       this.hungan = this.game.add.audio("hungan");
       this.ahe = this.game.add.audio("ahe");
+      //this.ahe.volume=0.07;
       
       //create emitter
       this.emitter = this.game.add.emitter(this.game.world.centerX,this.game.world.centerY,50);
@@ -201,13 +203,15 @@ var gameState={
       
     
     }else{
-      //Play a sound when its wrong
-      this.ahe.play();
+      
+     
       console.log("SORRY ITS WRONG");
       player.input.draggable = false;
       
       this.showText("Wrong");
       this.textAppear.visible=true;
+      //Play a sound when its wrong
+       this.ahe.play();
       
       
       //reset the sprite back to original position
@@ -259,6 +263,7 @@ var gameState={
     var tween = this.game.add.tween(sprite.scale).to({x:0.6,y:0.6},300);
     tween.start();
     sprite.customSound.play();
+    this.showText(sprite.customParams.toUpperCase());
   },
   
   reverse:function(player){
