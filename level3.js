@@ -1,9 +1,9 @@
-var level2={
+var level3={
   
   create:function(){
       this.game.stage.backgroundColor="#ffffff";
       
-      this.background = this.game.add.sprite(0,0,"background2");
+      this.background = this.game.add.sprite(0,0,"background3");
       
       //create audio
       this.hungan = this.game.add.audio("hungan");
@@ -49,16 +49,19 @@ var level2={
    
     var enemyData = [
         {
-            key:"pig",x:150,y:100
+            key:"chicken",x:200,y:100
           },
           {
-            key:"monkey",x:300,y:100
+            key:"dog",x:300,y:100
           },
           {
-            key:"rabbit",x:450,y:100
+            key:"cow",x:400,y:100
           },
           {
-            key:"elephant",x:600,y:100
+            key:"mouse",x:500,y:100
+          },
+          {
+            key:"sheep",x:600,y:100
           }
         
       
@@ -72,22 +75,25 @@ var level2={
         this.game.physics.arcade.enable(enemy);
         enemy.customParams=element.key;
         this.imageGroup.add(enemy);
-        enemy.scale.setTo(0.25);
+        enemy.scale.setTo(0.3);
         enemy.anchor.setTo(0.5);
       },this);
  
       var playerData = [
           {
-            key:"rabbit",x:450,y:500
+            key:"sheep",x:100,y:500
           },
           {
-            key:"monkey",x:150,y:500
+            key:"dog",x:250,y:500
           },
           {
-            key:"pig",x:600,y:500
+            key:"mouse",x:400,y:500
           },
           {
-            key:"elephant",x:300,y:500
+            key:"cow",x:550,y:500
+          },
+          {
+            key:"chicken",x:700,y:500
           }
         
         
@@ -100,7 +106,7 @@ var level2={
           this.game.physics.arcade.enable(player);
           player.customParams=element.key;
           this.playerGroup.add(player);
-          player.scale.setTo(0.25);
+          player.scale.setTo(0.3);
           player.anchor.setTo(0.5);
           player.body.setSize(45,100,45,45);
           player.body.collideWorldBounds = true;
@@ -204,7 +210,7 @@ var level2={
   //check if there is anymore sprites on the game if none then wait 3 seconds before going to the next level
     if(this.playerGroup.total ==0){
       this.game.time.events.add(2000,function(){
-       this.game.state.start("level3");
+       this.game.state.start("game");
       },this);
        
       }
