@@ -78,12 +78,12 @@
       
   
 //   update:function(){
-//     this.game.time.events.add(4000,function(){
-//       this.won=true;
-//     },this);
-//       if(this.won){
-//         this.game.state.start("game",true,false,this.currentLevel);
-//       }
+//     // this.game.time.events.add(4000,function(){
+//     //   this.won=true;
+//     //},this);
+//       // if(this.won==true){
+//       //   this.game.state.start("game",true,false,this.currentLevel);
+//       // }
       
     
 //   },
@@ -94,26 +94,26 @@
 //             "key":"panda",x:600,y:500,"scale":0.3
 //           },
 //           {
-//             "key":"snake","x":200,"y":500,"scale":0.3
+//             "key":"cow","x":200,"y":500,"scale":0.3
 //           },
 //           {
 //             "key":"parrot","x":400,"y":500,"scale":0.3
 //           }],
           
 //           "playerPositions":[ {
-//             "key":"snake",x:500,y:300,"scale":0.3
+//             "key":"dog",x:500,y:300,"scale":0.3
 //           },
 //           {
-//             "key":"panda","x":100,"y":300,"scale":0.3
+//             "key":"sheep","x":100,"y":300,"scale":0.3
 //           },
 //           {
-//             "key":"parrot","x":300,"y":300,"scale":0.3
+//             "key":"pig","x":300,"y":300,"scale":0.3
 //           }]
 //     };
 //     //load the bottom player sprites
 //     if(this.currentLevel<this.numLevels && this.won){
 //       this.currentLevel++;
-//       this.state.start('game', true, false,2);
+//       this.state.start('game', true, false,this.currentLevel);
 //       this.loadPlayers();
       
 //     }else{
@@ -164,64 +164,68 @@ var gameState={
   //make a timer that when the player gets it right it shows a nice animation then it goes to next level
   //make timer stuff
   //tween when it overlaps
-  init:function(){
+  // init:function(){
     
     
-      this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  //     this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       
-      this.game.scale.setMinMax(this.game.width/2,this.game.height/2,this.game.width*2,this.game.height*2);
+  //     this.game.scale.setMinMax(this.game.width/2,this.game.height/2,this.game.width*2,this.game.height*2);
       
-      this.game.scale.pageAlignHorizontally = true;
-      this.game.scale.pageAlignVertically = true;
+  //     this.game.scale.pageAlignHorizontally = true;
+  //     this.game.scale.pageAlignVertically = true;
       
-      //variables
-      this.textAppear;
+  //     //variables
+  //     this.textAppear;
+  //     this.spriteText;
   
     
-  },
+  // },
     
-  preload:function(){
-      this.game.load.image("panda","assets/panda.png");
-      this.game.load.image("snake","assets/snake.png");
-      this.game.load.image("parrot","assets/parrot.png");
-      this.game.load.image("pig","assets/pig.png");
-      this.game.load.image("background","assets/background-3.png");
-      this.game.load.image("background2","assets/background2.png");
-      this.game.load.image("background3","assets/background3.png");
-      this.game.load.image("ibb","assets/ibb.png");
-      this.game.load.image("star","assets/star.png");
-      this.game.load.image("pig","assets/pig.png");
-      this.game.load.image("rabbit","assets/rabbit.png");
-      this.game.load.image("monkey","assets/monkey.png");
-      this.game.load.image("elephant","assets/elephant.png");
-      this.game.load.image("chicken","assets/chicken.png");
-      this.game.load.image("cow","assets/cow.png");
+  // preload:function(){
+  //     this.game.load.image("panda","assets/panda.png");
+  //     this.game.load.image("snake","assets/snake.png");
+  //     this.game.load.image("parrot","assets/parrot.png");
+  //     this.game.load.image("pig","assets/pig.png");
+  //     this.game.load.image("background","assets/background-3.png");
+  //     this.game.load.image("background2","assets/background2.png");
+  //     this.game.load.image("background3","assets/background3.png");
+  //     this.game.load.image("ibb","assets/ibb.png");
+  //     this.game.load.image("star","assets/star.png");
+  //     this.game.load.image("pig","assets/pig.png");
+  //     this.game.load.image("rabbit","assets/rabbit.png");
+  //     this.game.load.image("monkey","assets/monkey.png");
+  //     this.game.load.image("elephant","assets/elephant.png");
+  //     this.game.load.image("chicken","assets/chicken.png");
+  //     this.game.load.image("cow","assets/cow.png");
+  //     this.game.load.image("mainMenu","assets/cow.main.jpg");
       
-      this.game.load.image("goat","assets/goat.png");
-      this.game.load.image("mouse","assets/mouse.png");
-      this.game.load.image("sheep","assets/sheep.png");
-      this.game.load.image("dog","assets/dog.png");
+  //     this.game.load.image("goat","assets/goat.png");
+  //     this.game.load.image("mouse","assets/mouse.png");
+  //     this.game.load.image("sheep","assets/sheep.png");
+  //     this.game.load.image("dog","assets/dog.png");
+      
+  //     //spritesheet
+  //     this.game.load.spritesheet("icons","assets/icon.png",32,32);
       
       
-      
-      //audio
-      this.game.load.audio("hungan","assets/sounds/correct.mp3");
-      this.game.load.audio("ahe","assets/sounds/ahe.mp3");
-      this.game.load.audio("parrot","assets/sounds/parrot.mp3");
-      this.game.load.audio("snake","assets/sounds/snake.mp3");
-      this.game.load.audio("panda","assets/sounds/panda.mp3");
+  //     //audio
+  //     this.game.load.audio("hungan","assets/sounds/correct.mp3");
+  //     this.game.load.audio("ahe","assets/sounds/ahe.mp3");
+  //     this.game.load.audio("parrot","assets/sounds/parrot.mp3");
+  //     this.game.load.audio("snake","assets/sounds/snake.mp3");
+  //     this.game.load.audio("panda","assets/sounds/panda.mp3");
       
       
       
       
 
       
-  },
+  // },
   
   create:function(){
       this.game.stage.backgroundColor="#ffffff";
-      this.game.physics.startSystem(Phaser.Physics.ARCADE);
-      this.game.renderer.renderSession.roundPixels=true;
+      //this.game.physics.startSystem(Phaser.Physics.ARCADE);
+      //this.game.renderer.renderSession.roundPixels=true;
       this.background = this.game.add.sprite(0,0,"background");
       
       //create audio
@@ -241,28 +245,28 @@ var gameState={
       this.playerGroup = this.game.add.group();
       this.imageGroup=this.game.add.group();
       
-      this.panda = this.game.add.sprite(200,100,"panda");
-      this.panda.scale.setTo(0.3);
-      this.panda.anchor.setTo(0.5);
-      this.panda.customParams="panda";
-      this.game.physics.arcade.enable(this.panda);
-      this.imageGroup.add(this.panda);
+      this.cat = this.game.add.sprite(200,100,"cat");
+      this.cat.scale.setTo(0.3);
+      this.cat.anchor.setTo(0.5);
+      this.cat.customParams="cat";
+      this.game.physics.arcade.enable(this.cat);
+      this.imageGroup.add(this.cat);
       
       
       
       this.snake = this.game.add.sprite(400,100,"snake");
       this.snake.scale.setTo(0.3);
-       this.snake.anchor.setTo(0.5);
+      this.snake.anchor.setTo(0.5);
       this.game.physics.arcade.enable(this.snake);
       this.snake.customParams="snake";
       this.imageGroup.add(this.snake);
       
       
-      this.parrot = this.game.add.sprite(600,100,"parrot");
+      this.parrot = this.game.add.sprite(600,100,"bird");
       this.parrot.scale.setTo(0.3);
-       this.parrot.anchor.setTo(0.5);
+      this.parrot.anchor.setTo(0.5);
       this.game.physics.arcade.enable(this.parrot);
-      this.parrot.customParams="parrot";
+      this.parrot.customParams="bird";
       this.imageGroup.add(this.parrot);
       
    
@@ -273,13 +277,13 @@ var gameState={
       
       var playerData = [
           {
-            key:"panda",x:600,y:500
+            key:"cat",x:600,y:500
           },
           {
             key:"snake",x:200,y:500
           },
           {
-            key:"parrot",x:400,y:500
+            key:"bird",x:400,y:500
           },
           
         
@@ -344,7 +348,7 @@ var gameState={
           tween.start();
           
           
-         // var tween = this.game.add.tween(element.scale).to({},2000).yoyo(true).start().loop(true);
+        // var tween = this.game.add.tween(element.scale).to({},2000).yoyo(true).start().loop(true);
         },this);
         
         
@@ -352,6 +356,14 @@ var gameState={
         var style = {font:"bold 30px Arial",fill:"#ffffff",align:"center"};
       this.textAppear=this.game.add.text(this.game.width/2,this.game.world.centerY,null,style);
       this.textAppear.anchor.setTo(0.5);
+      
+      //create the help question mark
+      this.questionMark = this.game.add.sprite(this.game.world.width-50,this.game.world.height-50,"icons");
+      this.questionMark.frame=42;
+      this.questionMark.inputEnabled=true;
+      this.questionMark.events.onInputDown.add(this.showTheHelpBar,this);
+      
+      
   },
   
   update:function(){
@@ -395,7 +407,7 @@ var gameState={
       this.showText("Wrong");
       this.textAppear.visible=true;
       //Play a sound when its wrong
-       this.ahe.play();
+      this.ahe.play();
       
       
       //reset the sprite back to original position
@@ -423,7 +435,7 @@ var gameState={
   //check if there is anymore sprites on the game if none then wait 3 seconds before going to the next level
     if(this.playerGroup.total ==0){
       this.game.time.events.add(2000,function(){
-       this.game.state.start("level2");
+      this.game.state.start("level2");
       },this);
        
       }
@@ -448,6 +460,7 @@ var gameState={
     tween.start();
     sprite.customSound.play();
     this.showText(sprite.customParams.toUpperCase());
+    
   },
   
   reverse:function(player){
@@ -479,6 +492,7 @@ var gameState={
       // this.textAppear=this.game.add.text(this.game.width/2,this.game.world.centerY,text,style);
       // this.textAppear.anchor.setTo(0.5);
       this.textAppear.text=text;
+      this.textAppear.visible=true;
     
   },
   // render:function(){
@@ -488,7 +502,46 @@ var gameState={
   //   },this);
     
 
-  // }
+  // },
+  
+  
+  showTheHelpBar:function(){
+    //the overlay
+    this.overlay = this.add.bitmapData(this.game.width,this.game.height);
+    this.overlay.ctx.fillStyle = "#000";
+    this.overlay.ctx.fillRect(0,0,this.game.width,this.game.height);
+    
+    //sprite for the overlay
+    this.panel = this.add.sprite(0,this.game.height,this.overlay);
+    this.panel.alpha = 0.55;
+    
+    //make it input enabled
+    this.panel.inputEnabled=true;
+    this.panel.events.onInputDown.add(this.hidePanel,this);
+    
+    //overlay raising tween animation
+    var gameHelpPanel = this.add.tween(this.panel);
+    gameHelpPanel.to({y:0},500);
+    
+    gameHelpPanel.onComplete.add(function(){
+    
+      
+      var style ={font:"30px Arial",fill:"#fff"};
+      this.helpInfo =this.game.add.text(this.game.width/2,this.game.height/2,"HAFA ADAI\n Drag the animals to match the other animals",style)
+      this.helpInfo.anchor.setTo(0.5);
+      //this.helpInfo.setText("Hafa hafa hafa");
+    },this);
+   
+  gameHelpPanel.start();
+    
+    
+  },
+  
+  hidePanel:function(){
+    this.panel.y=this.game.height;
+    this.helpInfo.text="";
+    
+  }
   
  
  

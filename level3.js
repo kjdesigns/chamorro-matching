@@ -22,29 +22,7 @@ var level3={
       this.playerGroup = this.game.add.group();
       this.imageGroup=this.game.add.group();
       
-      // this.panda = this.game.add.sprite(200,100,"panda");
-      // this.panda.scale.setTo(0.3);
-      // this.panda.anchor.setTo(0.5);
-      // this.panda.customParams="panda";
-      // this.game.physics.arcade.enable(this.panda);
-      // this.imageGroup.add(this.panda);
       
-      
-      
-      // this.snake = this.game.add.sprite(400,100,"snake");
-      // this.snake.scale.setTo(0.3);
-      // this.snake.anchor.setTo(0.5);
-      // this.game.physics.arcade.enable(this.snake);
-      // this.snake.customParams="snake";
-      // this.imageGroup.add(this.snake);
-      
-      
-      // this.parrot = this.game.add.sprite(600,100,"parrot");
-      // this.parrot.scale.setTo(0.3);
-      // this.parrot.anchor.setTo(0.5);
-      // this.game.physics.arcade.enable(this.parrot);
-      // this.parrot.customParams="parrot";
-      // this.imageGroup.add(this.parrot);
       
    
     var enemyData = [
@@ -142,6 +120,14 @@ var level3={
         var style = {font:"bold 30px Arial",fill:"#ffffff",align:"center"};
       this.textAppear=this.game.add.text(this.game.width/2,this.game.world.centerY,null,style);
       this.textAppear.anchor.setTo(0.5);
+      
+      //create the help question mark
+      this.questionMark = this.game.add.sprite(this.game.world.width-50,this.game.world.height-50,"icons");
+      this.questionMark.frame=42;
+      this.questionMark.inputEnabled=true;
+      this.questionMark.events.onInputDown.add(this.showTheHelpBar,this);
+      
+      
   },
   
   update:function(){
@@ -210,7 +196,7 @@ var level3={
   //check if there is anymore sprites on the game if none then wait 3 seconds before going to the next level
     if(this.playerGroup.total ==0){
       this.game.time.events.add(2000,function(){
-       this.game.state.start("game");
+       this.game.state.start("level4");
       },this);
        
       }
@@ -221,9 +207,6 @@ var level3={
   },
   
   dragPlayer:function(player){
-    //var tween = this.game.add.tween(player).to({alpha:1},1000);
-    // var tween = this.game.add.tween(player.scale).to({x:0.3,y:0.3},300);
-    // tween.start();
     
     player.input.enableDrag()
     
@@ -237,6 +220,8 @@ var level3={
     tween.start();
     sprite.customSound.play();
     this.showText(sprite.customParams.toUpperCase());
+    
+   
   },
   
   reverse:function(player){
@@ -252,22 +237,50 @@ var level3={
     tween.start();
     
   },
-  // showText:function(text){
-  //   if(!this.textAppear){
-  //     var style = {font:"bold 30px Arial",fill:"#D0171B",align:"center"};
-  //     this.textAppear=this.game.add.text(this.game.width/2,this.game.world.centerY,"this will have text",style);
-  //     this.textAppear.anchor.setTo(0.5);
-  //   }
-  //   this.textAppear.setText(text);
-  //   this.textAppear.visible=true;
-  // }
+  
   
   showText:function(text){
     
-      // var style = {font:"bold 30px Arial",fill:"#D0171B",align:"center"};
-      // this.textAppear=this.game.add.text(this.game.width/2,this.game.world.centerY,text,style);
-      // this.textAppear.anchor.setTo(0.5);
       this.textAppear.text=text;
+      this.textAppear.visible=true;
+    
+  },
+  
+  showTheHelpBar:function(){
+    //the overlay
+    this.overlay = this.add.bitmapData(this.game.width,this.game.height);
+    this.overlay.ctx.fillStyle = "#000";
+    this.overlay.ctx.fillRect(0,0,this.game.width,this.game.height);
+    
+    //sprite for the overlay
+    this.panel = this.add.sprite(0,this.game.height,this.overlay);
+    this.panel.alpha = 0.55;
+    
+    //make it input enabled
+    this.panel.inputEnabled=true;
+    this.panel.events.onInputDown.add(this.hidePanel,this);
+    
+     //overlay raising tween animation
+    var gameHelpPanel = this.add.tween(this.panel);
+    gameHelpPanel.to({y:0},500);
+    
+    gameHelpPanel.onComplete.add(function(){
+    
+      
+      var style ={font:"30px Arial",fill:"#fff"};
+       this.helpInfo =this.game.add.text(this.game.width/2,this.game.height/2,"HAFA ADAI\n Drag the animals to match the other animals",style)
+       this.helpInfo.anchor.setTo(0.5);
+      
+    },this);
+   
+   gameHelpPanel.start();
+    
+    
+  },
+  
+  hidePanel:function(){
+    this.panel.y=this.game.height;
+    this.helpInfo.text="";
     
   }
   
